@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bingo de Frases - Control Docente</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta http-equiv="refresh" content="5"> </head>
+<body>
+    <div class="container teacher-view">
+        <h1>Control de Juego - Docente</h1>
+        
+        <div th:if="${error}" class="message error" th:text="${error}"></div>
+        <div th:if="${message}" class="message success" th:text="${message}"></div>
+        <div th:if="${newPhrase}" class="message highlight" th:text="${newPhrase}"></div>
+
+        <div class="status-bar">
+            <p>Jugadores conectados: <span th:text="${playerCount}"></span> / <span th:text="${maxPlayers}"></span></p>
+            <p th:if="${gameActive}" class="active">ESTADO: JUEGO ACTIVO</p>
+            <p th:if="${!gameActive and winnerId == null}" class="waiting">ESTADO: ESPERANDO INICIO</p>
+            <p th:if="${winnerId != null}" class="finished">GANADOR: <span th:text="${winnerId}"></span> - ¡JUEGO TERMINADO!</p>
+        </div>
+
+        <div class="controls">
+            <form th:action="@{/teacher/start}" method="post" th:if="${!gameActive}">
+                <button type="submit" class="button start" th:disabled="${playerCount == 0}">Iniciar Juego</button>
+            </form>
+
+            <form th:action="@{/teacher/next-phrase}" method="post" th:if="${gameActive and winnerId == null}">
+                <button type="submit" class="button generate">Generar Siguiente Frase</button>
+            </form>
+            
+            <form th:action="@{/teacher/reset}" method="post">
+                <button type="submit" class="button reset" onclick="return confirm('¿Seguro que quieres resetear el juego y eliminar jugadores?')">Reiniciar/Borrar Jugadores</button>
+            </form>
+        </div>
+        
+        <hr/>
+        
+        <div th:if="${gameActive and winnerId == null}" class="game-image">
+            <p>Imagen para la Docente (Archivos Guardados)</p>
+            <img th:src="@{/images/game_start_image.png}" alt="Imagen de inicio de juego"> 
+        </div>
+
+        <div class="history">
+            <h2>Historial de Frases Cantadas</h2>
+            <ul th:if="${!historyPhrases.isEmpty()}" class="phrase-list">
+                <li th:each="phrase : ${historyPhrases}" th:text="${phrase}">Frase cantada</li>
+            </ul>
+            <p th:if="${historyPhrases.isEmpty()}">Aún no se ha cantado ninguna frase.</p>
+        </div>
+    </div>
+</body>
+</html>
