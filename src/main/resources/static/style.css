@@ -136,3 +136,32 @@ h1, h2 {
     padding: 8px;
     border-left: 5px solid #007bff;
 }
+.toy-colored {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    background-color: var(--toy-color);
+    
+    /* La imagen del juguete se usa como máscara */
+    -webkit-mask-image: var(--toy-mask);
+    mask-image: var(--toy-mask);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+
+    /* Suaviza los bordes */
+    background-blend-mode: multiply;
+}
+
+
+.toy-colored img {
+    display: block;
+    width: 150px; /* ajustá el tamaño */
+    height: auto;
+    filter: brightness(0) invert(1); /* convierte negro → blanco */
+}
+

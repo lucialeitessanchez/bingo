@@ -1,5 +1,6 @@
 package com.bingo.service;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.bingo.model.PhraseHistoryEntry;
 import com.bingo.model.Player;
 
 @Service
@@ -22,18 +24,23 @@ public class GameService {
     private static final List<String> COLORES = Arrays.asList(
             "red", "yellow", "green", "blue", "brown", "orange", "purple", "pink");
 
-    // Todas las posibles frases
-    private static final List<String> ALL_PHRASES;
+    // Todas las posibles combinaciones de Juguete-Color
+    private static final List<AbstractMap.SimpleEntry<String, String>> ALL_COMBINATIONS; // Almacenará pares (color,
+                                                                                         // juguete)
     static {
-        ALL_PHRASES = JUGUETES.stream()
-                .flatMap(j -> COLORES.stream().map(c -> c + " " + j))
-                .collect(Collectors.toList());
-        Collections.shuffle(ALL_PHRASES); // Barajamos inicialmente todas las frases posibles
+        ALL_COMBINATIONS = new ArrayList<>();
+        for (String juguete : JUGUETES) {
+            for (String color : COLORES) {
+                ALL_COMBINATIONS.add(new AbstractMap.SimpleEntry<>(color, juguete));
+            }
+        }
+        Collections.shuffle(ALL_COMBINATIONS); // Barajamos inicialmente todas las combinaciones
     }
 
     // --- Estado del Juego ---
     private final Map<String, Player> playerBoards = new ConcurrentHashMap<>();
-    private final List<String> historyPhrases = new ArrayList<>();
+    // Modificado para usar PhraseHistoryEntry
+    private final List<PhraseHistoryEntry> historyPhrases = new ArrayList<>(); // ¡CAMBIADO!
     private boolean gameActive = false;
     private String winningPlayerId = null;
     private final int MAX_PLAYERS = 30;
@@ -45,24 +52,34 @@ public class GameService {
      * 
      * @return La frase generada.
      */
-    public String generateNextPhrase() {
+    public PhraseHistoryEntry generateNextPhrase() { // ¡CAMBIADO el tipo de retorno!
         if (!gameActive)
-            return "Juego no activo";
+            return null; // Retornar null o lanzar excepción si el juego no está activo
 
-        // Selecciona una frase de las posibles que aún no se hayan cantado.
-        List<String> remainingPhrases = ALL_PHRASES.stream()
-                .filter(p -> !historyPhrases.contains(p))
+        // Selecciona una combinación de juguete-color que aún no se haya cantado
+        List<AbstractMap.SimpleEntry<String, String>> remainingCombinations = ALL_COMBINATIONS.stream()
+                .filter(combo -> !historyPhrases.stream()
+                        .map(PhraseHistoryEntry::getPhrase)
+                        .collect(Collectors.toList())
+                        .contains(combo.getKey() + " " + combo.getValue()))
                 .collect(Collectors.toList());
 
-        if (remainingPhrases.isEmpty()) {
-            return "No quedan frases por cantar";
+        if (remainingCombinations.isEmpty()) {
+            // Podrías lanzar una excepción o retornar un mensaje especial si no quedan
+            // frases
+            return null; // O un PhraseHistoryEntry especial para indicar que no hay más frases
         }
 
         Random random = new Random();
-        String newPhrase = remainingPhrases.get(random.nextInt(remainingPhrases.size()));
+        AbstractMap.SimpleEntry<String, String> selectedCombo = remainingCombinations
+                .get(random.nextInt(remainingCombinations.size()));
 
-        historyPhrases.add(newPhrase);
-        return newPhrase;
+        String newPhraseText = selectedCombo.getKey() + " " + selectedCombo.getValue();
+        PhraseHistoryEntry newEntry = new PhraseHistoryEntry(newPhraseText, selectedCombo.getValue(),
+                selectedCombo.getKey());
+
+        historyPhrases.add(newEntry);
+        return newEntry;
     }
 
     /**
@@ -70,9 +87,13 @@ public class GameService {
      */
     private List<String> createRandomBoard() {
         Random random = new Random();
-        List<String> shuffledPhrases = new ArrayList<>(ALL_PHRASES);
-        Collections.shuffle(shuffledPhrases, random);
-        return shuffledPhrases.subList(0, 9); // Las primeras 9
+        List<AbstractMap.SimpleEntry<String, String>> shuffledCombinations = new ArrayList<>(ALL_COMBINATIONS);
+        Collections.shuffle(shuffledCombinations, random);
+
+        return shuffledCombinations.stream()
+                .limit(9) // Toma solo 9
+                .map(combo -> combo.getKey() + " " + combo.getValue()) // Convierte a frase
+                .collect(Collectors.toList());
     }
 
     // --- Gestión de Jugadores ---
@@ -123,8 +144,23 @@ public class GameService {
         return winningPlayerId;
     }
 
-    public List<String> getHistoryPhrases() {
+    // Modificado para retornar la lista de PhraseHistoryEntry
+    public List<PhraseHistoryEntry> getHistoryPhrases() { // ¡CAMBIADO el tipo de retorno!
         return historyPhrases;
+    }
+
+    /**
+     * Reinicia el estado completo del juego a su valor inicial,
+     * borrando jugadores, historial y restableciendo las banderas.
+     */
+    public void resetGameState() {
+        this.playerBoards.clear(); // Borra todos los jugadores
+        this.historyPhrases.clear(); // Borra el historial de frases
+        this.gameActive = false; // ¡ESTO ES CLAVE! El juego vuelve a estado inactivo (Esperando)
+        this.winningPlayerId = null; // Borra el ganador
+
+        // Opcional: Si el juego debe tener las combinaciones barajadas de nuevo:
+        // Collections.shuffle(ALL_COMBINATIONS);
     }
 
     /**

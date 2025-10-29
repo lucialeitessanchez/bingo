@@ -20,9 +20,12 @@
         </div>
 
         <div class="controls">
-            <form th:action="@{/teacher/start}" method="post" th:if="${!gameActive}">
-                <button type="submit" class="button start" th:disabled="${playerCount == 0}">Iniciar Juego</button>
+            <form th:action="@{/teacher/start}" method="post" th:if="${!gameActive and playerCount > 0}">
+                <button type="submit" class="button start" >Iniciar Juego</button>
             </form>
+            <div th:if="${!gameActive and playerCount == 0}" class="message error">
+                <p>No hay jugadores conectados para iniciar el juego.</p>
+            </div>
 
             <form th:action="@{/teacher/next-phrase}" method="post" th:if="${gameActive and winnerId == null}">
                 <button type="submit" class="button generate">Generar Siguiente Frase</button>
@@ -35,18 +38,31 @@
         
         <hr/>
         
-        <div th:if="${gameActive and winnerId == null}" class="game-image">
-            <p>Imagen para la Docente (Archivos Guardados)</p>
+        <div th:if="${!gameActive and winnerId == null}" class="game-info-panel">
+            <h2>Escanee el QR para Unirse al Juego</h2>
+            <p>Asegúrese de que la IP de la URL sea la de la computadora anfitriona.</p>
+        
+            
+            <img th:src="@{/teacher/qr-code.png}" alt="Código QR para unirse al juego" class="qr-code-image"> 
+        </div>
+
+        <div th:if="${gameActive and winnerId == null}" class="game-info-panel active-game-image">
+            <p>Juego en Curso. (Imagen de referencia para la Docente)</p>
             <img th:src="@{/images/game_start_image.png}" alt="Imagen de inicio de juego"> 
         </div>
 
         <div class="history">
-            <h2>Historial de Frases Cantadas</h2>
-            <ul th:if="${!historyPhrases.isEmpty()}" class="phrase-list">
-                <li th:each="phrase : ${historyPhrases}" th:text="${phrase}">Frase cantada</li>
-            </ul>
-            <p th:if="${historyPhrases.isEmpty()}">Aún no se ha cantado ninguna frase.</p>
-        </div>
+    <h2>Historial de Frases Cantadas</h2>
+    <ul th:if="${!historyPhrases.isEmpty()}" class="phrase-list">
+<li th:each="entry : ${historyPhrases}">
+    <div class="toy-colored"
+     th:style="'--toy-color:' + ${entry.color} + '; --toy-mask-url: /images/juguetes/' + ${entry.toy} + '.png;'">
+</div>
+    <span th:text="${entry.phrase}"></span>
+</li>
+    </ul>
+    <p th:if="${historyPhrases.isEmpty()}">Aún no se ha cantado ninguna frase.</p>
+</div>
     </div>
 </body>
 </html>
