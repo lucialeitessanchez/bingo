@@ -10,7 +10,7 @@
     <meta http-equiv="refresh" content="5"> </head>
 <body>
     <div class="container">
-       <h2>Bienvenido, <span th:text="${player.name}">Jugador</span></h2>
+    <h2>Welcome <span th:text="${player.name}">to the BINGO</span></h2>
 
         <div th:if="${error}" class="message error" th:text="${error}"></div>
         <div th:if="${message}" class="message success" th:text="${message}"></div>
@@ -29,15 +29,15 @@
     if (winnerIdJs === playerIdJs) {
         // El jugador actual ganó
         titleText = "¡BINGO! 🎉";
-        messageText = "¡Felicidades, has ganado el juego!";
+        messageText = "¡Congrats, you're the win!";
         iconType = "success";
         backgroundStyle = "white url(/images/confeti.gif)"; 
     } else {
         // El jugador actual perdió
-        titleText = "¡JUEGO TERMINADO!";
+        titleText = "¡GAME OVER!";
         // CORRECCIÓN: Usamos la variable JS (winnerIdJs) de forma segura.
         // La línea anterior con .replace() era para inyección directa de Thymeleaf.
-        messageText = "El ganador es: " + winnerIdJs;
+        messageText = "The win is: " + winnerIdJs;
         iconType = "info";
         backgroundStyle = "#fff url(/images/cat.gif)";
     }
@@ -61,7 +61,7 @@
     
 </script>
         <div class="status" th:if="${!gameActive and winnerId == null}">
-            <h2>Esperando a que el juego inicie...</h2>
+            <h2>Waiting to start the game...</h2>
         </div>
 
       <div class="container mt-4">
