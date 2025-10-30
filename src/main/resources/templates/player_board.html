@@ -6,7 +6,7 @@
     <meta http-equiv="refresh" content="5"> </head>
 <body>
     <div class="container">
-        <h1 th:text="'Jugador: ' + ${player.id}">Tablero del Jugador</h1>
+       <h2>Bienvenido, <span th:text="${player.name}">Jugador</span></h2>
 
         <div th:if="${error}" class="message error" th:text="${error}"></div>
         <div th:if="${message}" class="message success" th:text="${message}"></div>

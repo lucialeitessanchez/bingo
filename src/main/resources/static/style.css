@@ -1,3 +1,7 @@
+:root {
+  --color-fondo-tarjeta: #f0f0f0; /* Valor inicial */
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -137,15 +141,21 @@ h1, h2 {
     border-left: 5px solid #007bff;
 }
 .toy-colored {
+    /* En style.css */
     position: relative;
     display: inline-block;
-    width: 150px;
-    height: 150px;
+    width: 150px; /* <-- TAMAÑO MUY GRANDE PARA UNA LISTA */
+    height: 150px; /* <-- TAMAÑO MUY GRANDE PARA UNA LISTA */
+    position: relative;
+    display: inline-block;
+    width: 50px; /* Reducí el tamaño para que se vea mejor en la lista */
+    height: 50px; /* Reducí el tamaño para que se vea mejor en la lista */
     background-color: var(--toy-color);
     
     /* La imagen del juguete se usa como máscara */
-    -webkit-mask-image: var(--toy-mask);
-    mask-image: var(--toy-mask);
+    -webkit-mask-image: var(--toy-mask-url); /* <--- CORRECCIÓN AQUÍ */
+    mask-image: var(--toy-mask-url);         /* <--- CORRECCIÓN AQUÍ */
+    
     -webkit-mask-size: contain;
     mask-size: contain;
     -webkit-mask-repeat: no-repeat;
@@ -153,15 +163,30 @@ h1, h2 {
     -webkit-mask-position: center;
     mask-position: center;
 
-    /* Suaviza los bordes */
-    background-blend-mode: multiply;
+    /* Asegúrate de que tu imagen original del juguete sea en blanco y negro o una silueta negra
+       para que la técnica de máscara funcione correctamente. */
 }
 
 
-.toy-colored img {
-    display: block;
-    width: 150px; /* ajustá el tamaño */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Estilo para la imagen dentro de la tarjeta */
+.card-toy-image {
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho de la tarjeta */
     height: auto;
-    filter: brightness(0) invert(1); /* convierte negro → blanco */
+    max-height: 200px; /* Limita la altura de la imagen para que no sea gigante */
+    object-fit: contain; /* Asegura que la imagen se vea completa sin recortarse */
+    margin-bottom: 15px;
+    
+    /* Si quieres la imagen en blanco y negro, quita el color del fondo */
+    filter: none; 
 }
 
+/* Modifica la card para que se ajuste mejor */
+.card {
+    min-height: 250px; /* Da un espacio mínimo para la imagen */
+}

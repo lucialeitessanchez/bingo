@@ -89,9 +89,19 @@ public class TeacherController {
         } else if (gameService.getWinningPlayerId() != null) {
             redirectAttributes.addFlashAttribute("error", "El juego ha terminado.");
         } else {
-            PhraseHistoryEntry newEntry = gameService.generateNextPhrase(); // ¡CAMBIADO el tipo!
+            PhraseHistoryEntry newEntry = gameService.generateNextPhrase();
             if (newEntry != null) {
-                redirectAttributes.addFlashAttribute("newPhrase", "¡Nueva frase: " + newEntry.getPhrase() + "!");
+                String phrase = newEntry.getPhrase(); // ejemplo: "brown bike"
+                String[] parts = phrase.split(" ", 2);
+                if (parts.length == 2) {
+                    String color = parts[0]; // "brown"
+                    String object = parts[1]; // "bike"
+                    redirectAttributes.addFlashAttribute("newCardColor", color);
+                    redirectAttributes.addFlashAttribute("newCardObject", object);
+                    redirectAttributes.addFlashAttribute("newCardText", phrase);
+                } else {
+                    redirectAttributes.addFlashAttribute("newCardText", phrase);
+                }
             } else {
                 redirectAttributes.addFlashAttribute("error", "No quedan frases por cantar.");
             }

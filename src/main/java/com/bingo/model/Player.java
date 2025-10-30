@@ -6,11 +6,13 @@ import java.util.List;
 public class Player {
 
     private final String id;
+    private final String name;
     private final List<String> board; // 9 frases
     private final List<Boolean> markedStatus; // Estado de tachado (true/false)
 
-    public Player(String id, List<String> phrases) {
+    public Player(String id, String name, List<String> phrases) {
         this.id = id;
+        this.name = name;
         this.board = phrases;
         this.markedStatus = new ArrayList<>();
         // Inicializa los 9 estados como no marcados (false)
@@ -51,5 +53,9 @@ public class Player {
      */
     public boolean checkBingo() {
         return markedStatus.stream().allMatch(status -> status);
+    }
+
+    public String getName() {
+        return name;
     }
 }

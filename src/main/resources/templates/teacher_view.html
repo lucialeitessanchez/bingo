@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Bingo de Frases - Control Docente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <meta http-equiv="refresh" content="5"> </head>
+    </head>
 <body>
     <div class="container teacher-view">
         <h1>Control de Juego - Docente</h1>
         
         <div th:if="${error}" class="message error" th:text="${error}"></div>
         <div th:if="${message}" class="message success" th:text="${message}"></div>
-        <div th:if="${newPhrase}" class="message highlight" th:text="${newPhrase}"></div>
+<div class="container mt-4">
+    <div th:if="${newCardText}" class="card" th:style="'background-color:' + ${newCardColor}">
+        <div class="card-body">
+            <img th:src="@{'/images/juguetes/' + ${newCardObject} + '.png'}" 
+                 th:alt="${newCardText}" 
+                 class="card-toy-image"/> 
+                 
+            <h5 class="card-title" th:text="${newCardText}">Frase sorteada</h5>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+</div>
 
         <div class="status-bar">
             <p>Jugadores conectados: <span th:text="${playerCount}"></span> / <span th:text="${maxPlayers}"></span></p>
@@ -51,15 +67,16 @@
             <img th:src="@{/images/game_start_image.png}" alt="Imagen de inicio de juego"> 
         </div>
 
-        <div class="history">
+       <div class="history">
     <h2>Historial de Frases Cantadas</h2>
     <ul th:if="${!historyPhrases.isEmpty()}" class="phrase-list">
-<li th:each="entry : ${historyPhrases}">
-    <div class="toy-colored"
-     th:style="'--toy-color:' + ${entry.color} + '; --toy-mask-url: /images/juguetes/' + ${entry.toy} + '.png;'">
-</div>
-    <span th:text="${entry.phrase}"></span>
-</li>
+        <li th:each="entry : ${historyPhrases}">
+            <div class="toy-colored"
+                 th:style="'--toy-color: ' + ${entry.color} + 
+                           '; --toy-mask-url: url(\'/images/juguetes/' + ${entry.toy} + '.png\');'">
+            </div>
+            <span th:text="${entry.phrase}"></span>
+        </li>
     </ul>
     <p th:if="${historyPhrases.isEmpty()}">Aún no se ha cantado ninguna frase.</p>
 </div>

@@ -101,12 +101,17 @@ public class GameService {
     /**
      * Simula la lectura del QR: agrega un nuevo jugador y genera su tablero.
      */
-    public Player addPlayer() {
+    public Player addPlayer(String playerName) {
         if (playerBoards.size() >= MAX_PLAYERS) {
             throw new IllegalStateException("Máximo de 30 jugadores alcanzado.");
         }
-        String playerId = "Jugador_" + (playerBoards.size() + 1);
-        Player newPlayer = new Player(playerId, createRandomBoard());
+
+        // Usamos el nombre ingresado por el jugador como ID
+        // Si quieres mantener un ID único separado del nombre, puedes combinarlo con un
+        // UUID
+        String playerId = playerName + "_" + (playerBoards.size() + 1);
+
+        Player newPlayer = new Player(playerId, playerName, createRandomBoard());
         playerBoards.put(playerId, newPlayer);
         return newPlayer;
     }

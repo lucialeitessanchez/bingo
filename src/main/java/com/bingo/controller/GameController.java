@@ -20,16 +20,21 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    // Simula la lectura de QR / Unirse al juego
     @GetMapping("/join")
-    public String joinGame(RedirectAttributes redirectAttributes) {
+    public String joinForm() {
+        // Muestra el formulario donde se ingresa el nombre
+        return "join_form"; // join_form.html
+    }
+
+    // Simula la lectura de QR / Unirse al juego
+    @PostMapping("/join")
+    public String joinGame(@RequestParam String playerName, RedirectAttributes redirectAttributes) {
         try {
-            Player player = gameService.addPlayer();
-            // Redirige al tablero con el ID único del jugador
+            Player player = gameService.addPlayer(playerName); // ahora pasamos el nombre
             return "redirect:/player/" + player.getId();
         } catch (IllegalStateException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/"; // Puedes crear una página de error simple
+            return "redirect:/join";
         }
     }
 
