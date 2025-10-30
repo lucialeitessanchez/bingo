@@ -20,7 +20,7 @@ public class GameService {
 
     // --- Datos del Juego ---
     private static final List<String> JUGUETES = Arrays.asList(
-            "doll", "ball", "scooter", "guitar", "puppet", "tablet", "bike", "teddy", "train set");
+            "doll", "ball", "scooter", "guitar", "puppet", "tablet", "bike", "teddy", "train-set");
     private static final List<String> COLORES = Arrays.asList(
             "red", "yellow", "green", "blue", "brown", "orange", "purple", "pink");
 
