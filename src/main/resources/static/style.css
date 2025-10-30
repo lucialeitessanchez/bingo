@@ -11,7 +11,8 @@ body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 900px; /* Necesario para que el margen auto funcione */
+    margin: 20px auto; /* Esto es lo que centra la caja */
     margin: 20px auto;
     background: #fff;
     padding: 30px;
@@ -82,8 +83,13 @@ h1, h2 {
 }
 
 /* --- Vista Docente --- */
+.container.teacher-view {
+    /* Forzamos el centrado horizontal para la vista docente */
+    margin-left: auto;
+    margin-right: auto;
+}
 .teacher-view .controls {
-    display: flex;
+    display: block;
     gap: 10px;
     justify-content: center;
     margin-bottom: 20px;
@@ -182,11 +188,13 @@ h1, h2 {
 /* Estilo para la imagen dentro de la tarjeta */
 .card-toy-image {
     max-width: 100%; /* Asegura que la imagen no exceda el ancho de la tarjeta */
-    height: auto;
-    max-height: 200px; /* Limita la altura de la imagen para que no sea gigante */
+    width: 150px;
+    height: 150px;
+    max-height: 100px; /* Limita la altura de la imagen para que no sea gigante */
     object-fit: contain; /* Asegura que la imagen se vea completa sin recortarse */
     margin-bottom: 15px;
-    
+    display: block; 
+    margin: 0 auto 15px auto;
     /* Si quieres la imagen en blanco y negro, quita el color del fondo */
     filter: none; 
 }

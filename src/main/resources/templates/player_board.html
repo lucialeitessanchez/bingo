@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Bingo de Frases - Tablero</title>
+    <title>Bingo - Player</title>
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/images/bingoIcon.png}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -9,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta http-equiv="refresh" content="5"> </head>
 <body>
+    <br>
     <div class="container">
     <h2>Welcome <span th:text="${player.name}">to the BINGO</span></h2>
 
@@ -30,16 +32,12 @@
         // El jugador actual ganó
         titleText = "¡BINGO! 🎉";
         messageText = "¡Congrats, you're the win!";
-        iconType = "success";
         backgroundStyle = "white url(/images/confeti.gif)"; 
     } else {
         // El jugador actual perdió
         titleText = "¡GAME OVER!";
-        // CORRECCIÓN: Usamos la variable JS (winnerIdJs) de forma segura.
-        // La línea anterior con .replace() era para inyección directa de Thymeleaf.
         messageText = "The win is: " + winnerIdJs;
-        iconType = "info";
-        backgroundStyle = "#fff url(/images/cat.gif)";
+        backgroundStyle = "white url(/images/cat.gif)";
     }
 
     // 2. Ejecutar la alerta de SweetAlert2 (¡ESTE CÓDIGO FALTABA!)
@@ -50,13 +48,7 @@
         width: 600,
         padding: "3em",
         color: "#716add",
-        background: backgroundStyle, 
-        backdrop: `
-            rgba(0,0,123,0.4)
-            url("/images/cat.gif")
-            left top
-            no-repeat
-        `
+        background: backgroundStyle,
     });
     
 </script>
