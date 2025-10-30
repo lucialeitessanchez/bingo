@@ -7,8 +7,12 @@
 <body>
 <h2>Ingrese su nombre para unirse al juego</h2>
 <form action="/player/join" method="post">
-    <input type="text" name="playerName" placeholder="Tu nombre" required>
-    <button type="submit">Unirse</button>
+     <div class="mb-3">
+    <label for="name" class="form-label">Student's name</label>
+     <input type="text" name="playerName" required class="form-control" id="name" aria-describedby="nameHelp">
+    <button type="submit" class="btn btn-success">Join</button>
+    
+    </div>
 </form>
 </body>
 </html>
