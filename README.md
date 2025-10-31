@@ -67,10 +67,10 @@ Buscá el proceso llamado Java o OpenJDK.
 
 Seleccionalo y hacé clic en Finalizar tarea.
 
-##🐧 INICIO DEL JUEGO (Linux)
+## 🐧 INICIO DEL JUEGO (Linux)
 En Linux podés crear un lanzador de aplicación (.desktop) con ícono propio, para abrir el juego como si fuera una app nativa.
 
-###🔧 Requisitos
+### 🔧 Requisitos
 Java: Instalar JRE 17 o superior.
 
 Archivos necesarios:
@@ -118,7 +118,7 @@ bash
 Copy code
 http://localhost:8080/teacher/view
 
-##🛑 Para Detener el Juego
+## 🛑 Para Detener el Juego
 El servidor corre en segundo plano, por lo que necesitás detener el proceso Java manualmente:
 
 bash
@@ -130,4 +130,4 @@ bash
 Copy code
 kill [PID_del_proceso]
 
-###🏁 ¡Listo!
+### 🏁 ¡Listo!
