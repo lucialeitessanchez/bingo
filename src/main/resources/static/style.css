@@ -1,6 +1,76 @@
 :root {
   --color-fondo-tarjeta: #f0f0f0; /* Valor inicial */
 }
+.card {
+    /* **TAMAÑO CUADRADO FIJO** (Ejemplo 300x300px) */
+    width: 300px; 
+    height: 300px;
+    
+    background-color: #F9DBBA;
+    
+    /* Centrado Horizontal */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+
+    /* Estilo de la Card */
+    border-radius: 8px; /* Redondeo que ya tenías */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 20px;
+    
+    /* Configuración Flex para centrar el contenido (imagen y texto) */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente el contenido */
+}
+.card-toy-image {
+    /* **1. ESTABLECER TAMAÑO FIJO:** Esto asegura que todas las imágenes ocupen la misma área. */
+    width: 150px;
+    height: 150px; 
+    
+    /* **2. CONTROL DE AJUSTE:** Define cómo se ve la imagen dentro del área de 150x150. */
+    object-fit: contain; 
+    /* 'contain' asegura que la imagen entera sea visible, sin recortar, manteniendo la proporción. 
+       'cover' llenaría el espacio, recortando los bordes si la proporción no encaja. */
+    
+    /* **3. CENTRADO (si es necesario):** Asegura que la imagen esté centrada en el flujo. */
+    display: block; 
+    margin: 0 auto 15px auto; /* Centra horizontalmente el bloque de imagen */
+}
+.toy-colored {
+    /* 1. TAMAÑO REQUERIDO: Fuerza la dimensión del contenedor */
+    width: 458px; 
+    height: 544px;
+    
+    position: relative;
+    display: inline-block;
+    vertical-align: middle; /* Para alinear con el texto de la frase */
+    
+    background-color: var(--toy-color);
+    
+    /* La imagen del juguete se usa como máscara */
+    -webkit-mask-image: var(--toy-mask-url); 
+    mask-image: var(--toy-mask-url); 
+    
+    -webkit-mask-size: contain;
+    mask-size: contain; /* Asegura que la silueta quepa en el 458x544 */
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+/* Modifica la card para que se ajuste mejor */
+
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Espacio uniforme entre elementos */
+}
+
+
 
 body {
     font-family: Arial, sans-serif;
@@ -145,56 +215,4 @@ h1, h2 {
     margin-bottom: 5px;
     padding: 8px;
     border-left: 5px solid #007bff;
-}
-.toy-colored {
-    /* En style.css */
-    position: relative;
-    display: inline-block;
-    width: 150px; /* <-- TAMAÑO MUY GRANDE PARA UNA LISTA */
-    height: 150px; /* <-- TAMAÑO MUY GRANDE PARA UNA LISTA */
-    position: relative;
-    display: inline-block;
-    width: 50px; /* Reducí el tamaño para que se vea mejor en la lista */
-    height: 50px; /* Reducí el tamaño para que se vea mejor en la lista */
-    background-color: var(--toy-color);
-    
-    /* La imagen del juguete se usa como máscara */
-    -webkit-mask-image: var(--toy-mask-url); /* <--- CORRECCIÓN AQUÍ */
-    mask-image: var(--toy-mask-url);         /* <--- CORRECCIÓN AQUÍ */
-    
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-
-    /* Asegúrate de que tu imagen original del juguete sea en blanco y negro o una silueta negra
-       para que la técnica de máscara funcione correctamente. */
-}
-
-/* Modifica la card para que se ajuste mejor */
-.card {
-    min-height: 250px; /* Da un espacio mínimo para la imagen */
-    background-blend-mode: multiply; /* mezcla color de fondo con imagen */
-}
-
-.card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* Estilo para la imagen dentro de la tarjeta */
-.card-toy-image {
-    max-width: 100%; /* Asegura que la imagen no exceda el ancho de la tarjeta */
-    width: 150px;
-    height: 150px;
-    max-height: 100px; /* Limita la altura de la imagen para que no sea gigante */
-    object-fit: contain; /* Asegura que la imagen se vea completa sin recortarse */
-    margin-bottom: 15px;
-    display: block; 
-    margin: 0 auto 15px auto;
-    /* Si quieres la imagen en blanco y negro, quita el color del fondo */
-    filter: none; 
 }

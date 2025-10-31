@@ -14,16 +14,17 @@
         
         <div th:if="${error}" class="message error" th:text="${error}"></div>
         <div th:if="${message}" class="message success" th:text="${message}"></div>
-<div class="container mt-4">
-    <div th:if="${newCardText}" class="card" th:style="'background-color:' + ${newCardColor}">
-        <div class="card-body">
+
+    <div th:if="${newCardText}" 
+         class="card" 
+         th:style="'background-color:' + ${newCardColor}"> <div class="card-body">
             <img th:src="@{'/images/juguetes/' + ${newCardObject} + '.png'}" 
-                th:alt="${newCardText}" 
-                class="card-toy-image"/> 
+                 th:alt="${newCardText}" 
+                 class="card-toy-image" />
             
         </div>
     </div>
-</div>
+
     </div>
 
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
@@ -44,13 +45,15 @@
                 <p>Any players connected to start de game</p>
             </div>
 
+            <div class="btn-group" role="group" aria-label="Basic example">
             <form th:action="@{/teacher/next-phrase}" method="post" th:if="${gameActive and winnerId == null}">
-                <button type="submit" class="button generate">Generate new Phrase</button>
+                <button type="submit"  class="btn btn-primary">Generate new Phrase</button>
             </form>
             
             <form th:action="@{/teacher/reset}" method="post">
                 <button type="submit" class="btn btn-outline-warning" onclick="return confirm('¿Seguro que quieres resetear el juego y eliminar jugadores?')">Reset players</button>
             </form>
+            </div>
         </div>
         
         <hr/>
