@@ -1,106 +1,134 @@
-#*INICIO DEL JUEGO (WINDOWS - Archivo .BAT) *💻#
-Este archivo te permite iniciar el sistema de Bingo de Frases con un simple doble clic, sin necesidad de usar la terminal.
+# 🎲 Sistema de Bingo de Frases
 
-#Requisitos#
-*Java: Debes tener instalado el Java Runtime Environment (JRE) (versión 17 o superior) en tu computadora.
+Este proyecto permite ejecutar el **Bingo de Frases** de forma simple, tanto en **Windows** como en **Linux**, con un solo clic.  
+Incluye archivos de inicio automatizados para facilitar el uso sin necesidad de abrir la terminal.
 
-*Generar archivo .jar: mvn clean package (en carpeta target del proyecto)
+---
 
-*Archivos: Debes tener los siguientes archivos juntos en la misma carpeta:
+## 💻 INICIO DEL JUEGO (Windows)
 
-*bingo-game.jar (El programa principal)
+Este archivo te permite iniciar el sistema de Bingo con un simple **doble clic**, sin usar la terminal.
 
-*iniciar_juego.bat (El archivo de inicio):
+### 🔧 Requisitos
 
+- **Java:** Debes tener instalado **Java Runtime Environment (JRE)** versión **17 o superior**.  
+- **Archivo JAR:** Generá el archivo ejecutable con el comando:
+  ```bash
+  mvn clean package
+(El .jar se generará dentro de la carpeta target del proyecto).
+
+Archivos necesarios: deben estar juntos en la misma carpeta:
+
+Copy code
+bingo-game.jar      ← Programa principal
+iniciar_juego.bat   ← Archivo de inicio
+▶️ Archivo de inicio (iniciar_juego.bat)
+bat
+Copy code
 @echo off
 ECHO Iniciando el servidor de Bingo en el puerto 8080...
 
-REM Inicia el servidor Java en segundo plano usando javaw (sin ventana de consola)
+REM Inicia el servidor Java en segundo plano (sin ventana de consola)
 start javaw -jar bingo-game.jar
 
-REM Espera unos 5 segundos para que el servidor se inicie completamente
+REM Espera unos segundos para permitir que el servidor se inicie
 timeout /t 5 /nobreak
 
 ECHO Abriendo el navegador...
-REM Abre Google Chrome con la URL de la docente
+REM Abre Google Chrome con la vista de docente
 start chrome "http://localhost:8080/teacher/view"
 
 EXIT
+🚀 Pasos para Iniciar
+Asegurate de que los archivos .jar y .bat estén en el mismo lugar.
 
-##Pasos para Iniciar##
-*Asegúrate de que los archivos .jar y .bat estén en el mismo lugar.
+Hacé doble clic en iniciar_juego.bat.
 
-*Haz doble clic en el archivo iniciar_juego.bat.
+Se abrirá el navegador automáticamente en la vista de docente:
 
-*Nota: El servidor del juego se iniciará en segundo plano y abrirá tu navegador automáticamente en la página de control.
+bash
+Copy code
+http://localhost:8080/teacher/view
+🌐 Acceso al Juego
+Vista Docente:
+👉 http://localhost:8080/teacher/view
 
-##Acceso al Juego##
-Una vez que el navegador se abra, ya estás en la vista de la docente.
+Conexión de Jugadores:
+Usá el código QR que aparece en pantalla.
+El QR contendrá la IP local de tu computadora para que los jugadores puedan conectarse desde otros dispositivos en la misma red.
 
-Tu Vista (Docente): http://localhost:8080/teacher/view
+⛔ Para Detener el Juego
+El servidor Java queda corriendo en segundo plano.
+Para detenerlo:
 
-Conexión de Jugadores (QR): Para que los jugadores se conecten, usa el QR que se muestra en pantalla. El QR contendrá la dirección IP de tu computadora para que la red funcione correctamente. Todos los jugadores deben estar en la misma red
+Abrí el Administrador de Tareas (Ctrl + Shift + Esc).
 
-##Para Detener el Juego##
-Dado que la aplicación se ejecuta en segundo plano, cerrar la ventana del navegador no detiene el servidor.
+Buscá el proceso llamado Java o OpenJDK.
 
-Abre el Administrador de Tareas (Ctrl+Shift+Esc).
+Seleccionalo y hacé clic en Finalizar tarea.
 
-Busca cualquier proceso llamado "Java" o "OpenJDK".
+🐧 INICIO DEL JUEGO (Linux)
+En Linux podés crear un lanzador de aplicación (.desktop) con ícono propio, para abrir el juego como si fuera una app nativa.
 
-Selecciona el proceso que esté usando más memoria o CPU y haz clic en "Finalizar tarea".
+🔧 Requisitos
+Java: Instalar JRE 17 o superior.
 
-#*INICIO DEL JUEGO (LINUX - Archivo .desktop)* 🐧#
-Este archivo te permite crear un lanzador con un ícono, haciendo que el sistema de Bingo de Frases se sienta como una aplicación nativa.
+Archivos necesarios:
 
-##Requisitos##
-*Java: Debes tener instalado el Java Runtime Environment (JRE) (versión 17 o superior) en tu sistema.
+scss
+Copy code
+bingo-game.jar         ← Programa principal
+bingo_launcher.desktop ← Archivo de lanzador
+bingoIcon.png          ← Ícono (opcional, formato PNG)
+Generá el .jar con:
 
-*Archivos: Necesitas:
+bash
+Copy code
+mvn clean package
+🧩 Ejemplo de archivo bingo_launcher.desktop
+desktop
+Copy code
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Bingo de Frases
+Exec=java -jar /home/lucia/JuegoBingo/bingo-game.jar
+Icon=/home/lucia/JuegoBingo/bingoIcon.png
+Terminal=false
+Categories=Game;Education;
+🚀 Pasos para Instalar y Ejecutar
+Verificá las rutas de Exec= e Icon= en el archivo .desktop.
+Deben apuntar a la ubicación correcta de tus archivos, por ejemplo:
 
-*bingo-game.jar (El programa principal - Generar archivo .jar: mvn clean package (en carpeta target del proyecto)) 
+swift
+Copy code
+/home/lucia/JuegoBingo/
+Dale permisos de ejecución:
 
-*bingo_launcher.desktop (El archivo de lanzador)
-
-*bingoIcon.png (O el nombre de tu ícono, preferiblemente un archivo .png)
-
-##Pasos para Instalar y Ejecutar##
-1. Preparar el Lanzador
-Abre el archivo bingo_launcher.desktop y verifica que la ruta Exec= y Icon= apunten a la ubicación correcta de los archivos en tu sistema.
-
-Ejemplo: Si colocaste los archivos en /home/lucia/JuegoBingo/, la línea Exec= debe apuntar a ese lugar.
-
-Abre la terminal en la carpeta donde tienes los archivos y dale permisos de ejecución:
-
-Bash
-
+bash
+Copy code
 chmod +x bingo_launcher.desktop
-Mueve el archivo .desktop al escritorio o a la carpeta de aplicaciones local:
+Movelo al escritorio o al menú de aplicaciones:
 
-Bash
-
+bash
+Copy code
 mv bingo_launcher.desktop ~/Desktop/
-# O para el menú de aplicaciones:
-# mv bingo_launcher.desktop ~/.local/share/applications/
-2. Iniciar la Aplicación
-Haz doble clic en el nuevo ícono que aparece en tu escritorio o en el menú de aplicaciones.
+# o para el menú:
+mv bingo_launcher.desktop ~/.local/share/applications/
+Hacé doble clic en el ícono para iniciar el servidor y abrir el navegador en:
 
-El servidor se iniciará y automáticamente abrirá tu navegador en: http://localhost:8080/teacher/view.
+bash
+Copy code
+http://localhost:8080/teacher/view
+🛑 Para Detener el Juego
+El servidor corre en segundo plano, por lo que necesitás detener el proceso Java manualmente:
 
-Para Detener el Juego
-Como el servidor se ejecuta en segundo plano, necesitas finalizar el proceso de Java:
-
-Abre la terminal (Ctrl+Alt+T).
-
-Busca el proceso del juego:
-
-Bash
-
+bash
+Copy code
 ps aux | grep bingo-game.jar
-Copia el número PID (el segundo número de la línea).
+Copiá el número PID del proceso y ejecutá:
 
-Detén el proceso:
-
-Bash
-
+bash
+Copy code
 kill [PID_del_proceso]
+🏁 ¡Listo!
