@@ -1,6 +1,10 @@
 package com.bingo.controller;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +32,7 @@ public class TeacherController {
 
     @Autowired // ¡NUEVO!
     private QrCodeService qrCodeService;
+    
 
     // Muestra la vista de control
     // Muestra la vista de control
@@ -42,6 +47,24 @@ public class TeacherController {
         return "teacher_view";
     }
 
+    private String getLocalIpAddress() throws SocketException {
+    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+    while (interfaces.hasMoreElements()) {
+        NetworkInterface iface = interfaces.nextElement();
+        if (iface.isLoopback() || !iface.isUp()) continue;
+
+        Enumeration<InetAddress> addresses = iface.getInetAddresses();
+        while (addresses.hasMoreElements()) {
+            InetAddress addr = addresses.nextElement();
+            if (addr instanceof Inet4Address) {
+                return addr.getHostAddress();
+            }
+        }
+    }
+    return "127.0.0.1";
+}
+
+
     /**
      * Genera dinámicamente el código QR con la URL de unión al juego.
      */
@@ -49,7 +72,7 @@ public class TeacherController {
     public ResponseEntity<byte[]> getQrCode(HttpServletRequest request) {
         try {
             // Detecta la IP de la máquina donde se está ejecutando el servidor
-            String ipAddress = InetAddress.getLocalHost().getHostAddress();
+            String ipAddress = getLocalIpAddress();
             int port = request.getServerPort();
 
             // Construye la URL base automáticamente
