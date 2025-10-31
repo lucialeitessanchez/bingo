@@ -96,9 +96,9 @@ public class TeacherController {
     @PostMapping("/start")
     public String startGame(RedirectAttributes redirectAttributes) {
         if (gameService.startGame()) {
-            redirectAttributes.addFlashAttribute("message", "¡Juego iniciado!");
+            redirectAttributes.addFlashAttribute("message", "¡Game Started!");
         } else {
-            redirectAttributes.addFlashAttribute("error", "No hay jugadores o el juego ya está activo.");
+            redirectAttributes.addFlashAttribute("error", "There are no players or the game is already active.");
         }
         return "redirect:/teacher/view";
     }
@@ -108,9 +108,9 @@ public class TeacherController {
     @PostMapping("/next-phrase")
     public String generatePhrase(RedirectAttributes redirectAttributes) {
         if (!gameService.isGameActive()) {
-            redirectAttributes.addFlashAttribute("error", "El juego no está activo.");
+            redirectAttributes.addFlashAttribute("error", "The game is not active");
         } else if (gameService.getWinningPlayerId() != null) {
-            redirectAttributes.addFlashAttribute("error", "El juego ha terminado.");
+            redirectAttributes.addFlashAttribute("error", "The game finish");
         } else {
             PhraseHistoryEntry newEntry = gameService.generateNextPhrase();
             if (newEntry != null) {
@@ -126,7 +126,7 @@ public class TeacherController {
                     redirectAttributes.addFlashAttribute("newCardText", phrase);
                 }
             } else {
-                redirectAttributes.addFlashAttribute("error", "No quedan frases por cantar.");
+                redirectAttributes.addFlashAttribute("error", "No more phrases");
             }
         }
         return "redirect:/teacher/view";

@@ -63,21 +63,21 @@ public class GameController {
 
         if (!gameService.isGameActive() && gameService.getWinningPlayerId() != null) {
             redirectAttributes.addFlashAttribute("error",
-                    "El juego ha terminado. Ganador: " + gameService.getWinningPlayerId());
+                    "The game is over. Winner: " + gameService.getWinningPlayerId());
             return "redirect:/player/" + playerId;
         }
         if (!gameService.isGameActive()) {
-            redirectAttributes.addFlashAttribute("error", "El juego aún no ha iniciado.");
+            redirectAttributes.addFlashAttribute("error", "The game has not yet started.");
             return "redirect:/player/" + playerId;
         }
 
         boolean isBingo = gameService.processPlayerMarking(playerId, phrase);
 
         if (isBingo) {
-            redirectAttributes.addFlashAttribute("message", "¡BINGO! Has ganado.");
+            redirectAttributes.addFlashAttribute("message", "¡BINGO! You are win.");
         } else {
             // Esto recarga el tablero para ver la frase tachada y actualizar el estado
-            redirectAttributes.addFlashAttribute("message", "Frase tachada.");
+            redirectAttributes.addFlashAttribute("message", "Crossed-out phrase");
         }
 
         return "redirect:/player/" + playerId;
