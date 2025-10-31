@@ -67,10 +67,10 @@ Buscá el proceso llamado Java o OpenJDK.
 
 Seleccionalo y hacé clic en Finalizar tarea.
 
-🐧 INICIO DEL JUEGO (Linux)
+##🐧 INICIO DEL JUEGO (Linux)
 En Linux podés crear un lanzador de aplicación (.desktop) con ícono propio, para abrir el juego como si fuera una app nativa.
 
-🔧 Requisitos
+###🔧 Requisitos
 Java: Instalar JRE 17 o superior.
 
 Archivos necesarios:
@@ -82,12 +82,10 @@ bingo_launcher.desktop ← Archivo de lanzador
 bingoIcon.png          ← Ícono (opcional, formato PNG)
 Generá el .jar con:
 
-bash
-Copy code
-mvn clean package
+  mvn clean package
+  
 🧩 Ejemplo de archivo bingo_launcher.desktop
-desktop
-Copy code
+
 [Desktop Entry]
 Version=1.0
 Type=Application
@@ -101,8 +99,7 @@ Verificá las rutas de Exec= e Icon= en el archivo .desktop.
 Deben apuntar a la ubicación correcta de tus archivos, por ejemplo:
 
 swift
-Copy code
-/home/lucia/JuegoBingo/
+
 Dale permisos de ejecución:
 
 bash
@@ -113,14 +110,15 @@ Movelo al escritorio o al menú de aplicaciones:
 bash
 Copy code
 mv bingo_launcher.desktop ~/Desktop/
-# o para el menú:
+## o para el menú:
 mv bingo_launcher.desktop ~/.local/share/applications/
 Hacé doble clic en el ícono para iniciar el servidor y abrir el navegador en:
 
 bash
 Copy code
 http://localhost:8080/teacher/view
-🛑 Para Detener el Juego
+
+##🛑 Para Detener el Juego
 El servidor corre en segundo plano, por lo que necesitás detener el proceso Java manualmente:
 
 bash
@@ -131,4 +129,5 @@ Copiá el número PID del proceso y ejecutá:
 bash
 Copy code
 kill [PID_del_proceso]
-🏁 ¡Listo!
+
+###🏁 ¡Listo!
